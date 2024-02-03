@@ -1,0 +1,73 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>One Page Website</title>
+    <link rel="stylesheet" href="style2.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Aladin&display=swap" rel="stylesheet">
+</head>
+<body>
+    
+    
+    <section id="home">
+   <div class="container">
+    <center><img src="logo.png" alt="Logo" style="width: 25%; height: 25%;"></center>
+        <h1>Text-to-Speech Converter</h1>
+        <textarea id="inputText" rows="4" placeholder="Enter text..." class="dark-mode"></textarea>
+        <br>
+        <button onclick="convertToSpeech()" class="dark-mode">Convert to Speech</button>
+        <button onclick="stopSpeech()" class="dark-mode">Stop Speech</button>
+        
+        <audio id="audioPlayer" controls class="dark-mode"></audio>
+
+        <label for="darkModeToggle" class="dark-mode">Dark Mode:</label>
+        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()" class="dark-mode">
+    </div>
+    <script>
+         let synth = window.speechSynthesis;
+        let audioPlayer = document.getElementById('audioPlayer');
+
+        function convertToSpeech() {
+            let inputText = document.getElementById('inputText').value;
+            if (inputText.trim() !== '') {
+                // Create a SpeechSynthesisUtterance object
+                let utterance = new SpeechSynthesisUtterance(inputText);
+
+                // Optional: Set additional parameters
+                utterance.lang = 'en-US';
+                utterance.rate = 1.0; // Speed of speech
+
+                // Synthesize the speech
+                synth.speak(utterance);
+
+                // Convert speech to audio and play
+                let blob = new Blob([inputText], { type: 'audio/mp3' });
+                let url = URL.createObjectURL(blob);
+                audioPlayer.src = url;
+                audioPlayer.style.display = 'block';
+                audioPlayer.play();
+            }
+        }
+
+        function stopSpeech() {
+            synth.cancel();
+            audioPlayer.pause();
+            audioPlayer.style.display = 'none';
+        }
+
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            document.querySelector('.container').classList.toggle('dark-mode');
+        }
+    </script>>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>
